@@ -17,5 +17,5 @@ Modo docker:
 mnv clean install
 docker-compose up -d
 
-Abrir en http:localhost:8080
+Abrir en POST http:localhost:8080/api/users
 
