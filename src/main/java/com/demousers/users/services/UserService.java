@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -23,12 +26,16 @@ public class UserService {
 
         // Validar el formato del correo electrónico
         if (!isValidEmail(user.getEmail())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El formato del correo electrónico es incorrecto");
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "El formato del correo electrónico es incorrecto");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
 
         // Validar el formato de la contraseña
         if (!isValidPassword(user.getPassword())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El formato de la contraseña es incorrecto");
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "El formato de la contraseña es incorrecto");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
 
         // Generar token de acceso
