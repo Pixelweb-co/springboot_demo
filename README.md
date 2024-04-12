@@ -18,7 +18,7 @@ Modo docker:
 
 
 
-Abrir en POST http:localhost:8080/api/users
+Abrir en navegador http:localhost:8080/api/users
 
 
 ---------------------
