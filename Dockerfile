@@ -1,17 +1,15 @@
-# Usa la imagen de Amazon Corretto con la versión específica de Java que necesites
 FROM amazoncorretto:17-alpine
 
-# Establece el directorio de trabajo dentro del contenedor
-WORKDIR /app
+RUN apk add --no-cache maven
 
-# Copia el JAR compilado de tu aplicación al contenedor
-COPY target/users-0.0.1-SNAPSHOT.jar .
+WORKDIR /usr/src/app
 
-# Expone el puerto en el que tu aplicación Spring Boot está escuchando
+COPY pom.xml .
+COPY src ./src
+RUN mkdir target
+
 EXPOSE 8080
 
-# Establece la variable de entorno para el perfil de Spring
-ENV SPRING_PROFILES_ACTIVE=prod
+RUN mvn install
 
-# Comando para ejecutar tu aplicación Spring Boot cuando el contenedor se inicia
-CMD ["java", "-jar", "users-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "/usr/src/app/target/users-0.0.1-SNAPSHOT.jar"]
