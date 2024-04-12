@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -18,6 +18,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Value("${password.regex}")
+    private String passwordRegex;
 
     public ResponseEntity<?> createUser(UsersModel user) {
         // Verificar si el correo ya está registrado
@@ -71,6 +74,6 @@ public class UserService {
     private boolean isValidPassword(String password) {
         // Implementar validación de formato de contraseña
         // Utilizando expresiones regulares u otras técnicas
-        return password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$");
+        return password.matches(passwordRegex);
     }
 }
