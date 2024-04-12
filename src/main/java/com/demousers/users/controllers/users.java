@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -17,6 +19,13 @@ public class users {
 
     @Autowired
     private UserRepository userRepository;
+
+    @GetMapping
+    public ResponseEntity<List<UsersModel>> getAllUsers() {
+        List<UsersModel> users = userRepository.findAll();
+        return ResponseEntity.ok(users);
+    }
+
     @PostMapping
     public ResponseEntity<?> createUser(@RequestBody UsersModel user) {
         return userService.createUser(user);

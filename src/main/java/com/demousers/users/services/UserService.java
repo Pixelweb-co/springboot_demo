@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,9 +35,13 @@ public class UserService {
         // Validar el formato de la contraseña
         if (!isValidPassword(user.getPassword())) {
             Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("error", "El formato de la contraseña es incorrecto");
+            errorResponse.put("error", "El formato de la contraseña es incorrecto la contraseña debe ser de minimo 8 caracteres, tener mayusculas, minusculas, y caracter especial");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
+
+        // Generar UUID único para el nuevo usuario
+        UUID userId = UUID.randomUUID();
+        user.setId(userId);
 
         // Generar token de acceso
         String token = UUID.randomUUID().toString();
