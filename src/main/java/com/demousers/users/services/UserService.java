@@ -13,6 +13,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+
+import javax.crypto.SecretKey;
+
+
 @Service
 public class UserService {
 
@@ -21,6 +31,7 @@ public class UserService {
 
     @Value("${password.regex}")
     private String passwordRegex;
+
 
     public ResponseEntity<?> createUser(UsersModel user) {
         // Verificar si el correo ya está registrado
@@ -42,21 +53,31 @@ public class UserService {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
 
+        user.setPassword(user.getPassword());
+
         // Generar UUID único para el nuevo usuario
         UUID userId = UUID.randomUUID();
         user.setId(userId);
-
-        // Generar token de acceso
-        String token = UUID.randomUUID().toString();
-        user.setToken(token);
-
-        user.setPassword(user.getPassword());
 
         // Configurar fechas
         Date currentDate = new Date();
         user.setCreated(currentDate);
         user.setModified(currentDate);
         user.setLastLogin(currentDate);
+
+        // Generar una clave segura para HS256
+        SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
+
+        // Generar JWT único para el usuario
+        String token = Jwts.builder()
+                .setSubject(user.getEmail())
+                .setIssuedAt(currentDate)
+                .signWith(secretKey)
+                .compact();
+        user.setToken(token);
+
+
 
         // Guardar el usuario en la base de datos
         userRepository.save(user);
