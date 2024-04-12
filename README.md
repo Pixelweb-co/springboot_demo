@@ -7,19 +7,22 @@ Modo local:
 
 ejecute: 
 
-mnv clean install
-java -jar users-0.0.1-SNAPSHOT.jar &
+- mnv clean install
+
+- java -jar users-0.0.1-SNAPSHOT.jar &
 
 
 Modo docker:
 
-docker-compose up -d
+- docker-compose up -d
+
+
 
 Abrir en POST http:localhost:8080/api/users
 
 
 ---------------------
 
-API DOCUMENTACION
+API DOCUMENTACION Y PRUEBAS
 
 http://localhost:8080/swagger-ui/index.html
