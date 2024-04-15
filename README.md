@@ -28,3 +28,5 @@ Abrir en navegador
 API DOCUMENTACION Y PRUEBAS
 
 http://localhost:8080/swagger-ui/index.html
+
+Diagrama: /documentacion/
